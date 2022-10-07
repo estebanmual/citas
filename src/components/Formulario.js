@@ -8,16 +8,42 @@ import {
   View,
   ScrollView,
   Pressable,
+  Alert,
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Formulario = ({modalVisible, setModalVisible}) => {
+const Formulario = ({modalVisible, setModalVisible, citas, setCitas}) => {
   const [paciente, setPaciente] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(new Date());
   const [sintomas, setSintomas] = useState('');
+
+  const handleCita = () => {
+    if ([paciente, propietario, email, fecha, sintomas].includes('')) {
+      Alert.alert('Error', 'Todos los campos son obligatorios');
+      return;
+    }
+
+    const nuevaCita = {
+      paciente,
+      propietario,
+      email,
+      telefono,
+      fecha,
+      sintomas,
+    };
+
+    setCitas([...citas, nuevaCita]);
+    setModalVisible(false);
+    setPaciente('');
+    setPropietario('');
+    setEmail('');
+    setTelefono('');
+    setFecha(new Date());
+    setSintomas('');
+  };
 
   return (
     <Modal animationType="slide" visible={modalVisible}>
@@ -99,7 +125,7 @@ const Formulario = ({modalVisible, setModalVisible}) => {
               numberOfLines={4}
             />
           </View>
-          <Pressable style={styles.btnNuevaCita}>
+          <Pressable style={styles.btnNuevaCita} onPress={handleCita}>
             <Text style={styles.btnNuevaCitaTexto}>Agregar Paciente</Text>
           </Pressable>
         </ScrollView>

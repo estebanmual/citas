@@ -4,6 +4,7 @@ import Formulario from './src/components/Formulario';
 
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [citas, setCitas] = useState([]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,6 +20,8 @@ const App = () => {
       <Formulario
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        citas={citas}
+        setCitas={setCitas}
       />
     </SafeAreaView>
   );
