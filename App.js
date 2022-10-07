@@ -32,8 +32,8 @@ const App = () => {
           style={styles.listado}
           data={citas}
           keyExtractor={item => item.id}
-          renderItem={({item}) => {
-            return <Cita item={item} />;
+          renderItem={({item, index}) => {
+            return <Cita item={item} index={index} />;
           }}
         />
       )}

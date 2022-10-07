@@ -1,27 +1,46 @@
 import React from 'react';
 import {Text, View, StyleSheet} from 'react-native';
+import moment from 'moment/moment';
 
-const Cita = ({item}) => {
+const Cita = ({item, index}) => {
   const {paciente, fecha} = item;
-
   const formatearFecha = date => {
-    const opciones = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    console.log(date);
-    console.log(date.toLocaleDateString('es-ES', opciones));
-    return date.toLocaleDateString('es-ES', opciones);
+    return moment(date).format('LLLL');
   };
 
   return (
-    <View>
-      <Text>{paciente}</Text>
-      <Text>{formatearFecha(fecha)}</Text>
+    <View
+      style={
+        index === 0
+          ? styles.contenedor
+          : [styles.contenedor, {borderTopColor: '94A3B8', borderTopWidth: 1}]
+      }>
+      <Text style={styles.label}>Paciente: </Text>
+      <Text style={styles.texto}>{paciente}</Text>
+      <Text style={styles.fecha}>{formatearFecha(fecha)}</Text>
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  contenedor: {
+    backgroundColor: '#FFF',
+    padding: 20,
+  },
+  label: {
+    color: '#374151',
+    textTransform: 'uppercase',
+    fontWeight: '700',
+  },
+  texto: {
+    color: '#6D28D9',
+    fontSize: 24,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  fecha: {
+    color: '#6D28D9',
+  },
+});
 
 export default Cita;
