@@ -27,6 +27,7 @@ const Formulario = ({modalVisible, setModalVisible, citas, setCitas}) => {
     }
 
     const nuevaCita = {
+      id: Date.now(),
       paciente,
       propietario,
       email,
