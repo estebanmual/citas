@@ -12,6 +12,12 @@ import Cita from './src/components/Cita';
 const App = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [citas, setCitas] = useState([]);
+  const [cita, setCita] = useState({});
+
+  const editarCita = id => {
+    const citaEditar = citas.filter(cita => cita.id === id)[0];
+    setCita(citaEditar);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -33,7 +39,14 @@ const App = () => {
           data={citas}
           keyExtractor={item => item.id}
           renderItem={({item, index}) => {
-            return <Cita item={item} index={index} />;
+            return (
+              <Cita
+                item={item}
+                index={index}
+                setModalVisible={setModalVisible}
+                editarCita={editarCita}
+              />
+            );
           }}
         />
       )}
@@ -43,6 +56,7 @@ const App = () => {
         setModalVisible={setModalVisible}
         citas={citas}
         setCitas={setCitas}
+        cita={cita}
       />
     </SafeAreaView>
   );

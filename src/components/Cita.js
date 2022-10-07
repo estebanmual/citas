@@ -2,7 +2,7 @@ import React from 'react';
 import {Text, View, StyleSheet, Pressable} from 'react-native';
 import moment from 'moment/moment';
 
-const Cita = ({item, index}) => {
+const Cita = ({item, index, setModalVisible, editarCita}) => {
   const {paciente, fecha} = item;
   const formatearFecha = date => {
     return moment(date).format('LLLL');
@@ -20,7 +20,12 @@ const Cita = ({item, index}) => {
       <Text style={styles.fecha}>{formatearFecha(fecha)}</Text>
 
       <View style={styles.contenedorBotones}>
-        <Pressable style={[styles.btn, styles.btnEditar]}>
+        <Pressable
+          style={[styles.btn, styles.btnEditar]}
+          onPress={() => {
+            setModalVisible(true);
+            editarCita(item.id);
+          }}>
           <Text style={styles.btnTexto}>Editar</Text>
         </Pressable>
         <Pressable style={[styles.btn, styles.btnEliminar]}>
