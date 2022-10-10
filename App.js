@@ -15,7 +15,7 @@ const App = () => {
   const [cita, setCita] = useState({});
 
   const editarCita = id => {
-    const citaEditar = citas.filter(cita => cita.id === id)[0];
+    const citaEditar = citas.filter(item => item.id === id)[0];
     setCita(citaEditar);
   };
 
@@ -56,6 +56,7 @@ const App = () => {
         setModalVisible={setModalVisible}
         citas={citas}
         setCitas={setCitas}
+        setCita={setCita}
         cita={cita}
       />
     </SafeAreaView>

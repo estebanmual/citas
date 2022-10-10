@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Modal,
   SafeAreaView,
@@ -12,13 +12,34 @@ import {
 } from 'react-native';
 import DatePicker from 'react-native-date-picker';
 
-const Formulario = ({modalVisible, setModalVisible, citas, setCitas}) => {
+const Formulario = ({
+  modalVisible,
+  setModalVisible,
+  citas,
+  setCitas,
+  setCita,
+  cita,
+}) => {
+  const [id, setId] = useState(null);
   const [paciente, setPaciente] = useState('');
   const [propietario, setPropietario] = useState('');
   const [email, setEmail] = useState('');
   const [telefono, setTelefono] = useState('');
   const [fecha, setFecha] = useState(new Date());
   const [sintomas, setSintomas] = useState('');
+
+  useEffect(() => {
+    if (cita.id) {
+      setId(cita.id);
+      setPaciente(cita.paciente);
+      setPropietario(cita.propietario);
+      setEmail(cita.email);
+      setTelefono(cita.telefono);
+      setFecha(cita.fecha);
+      setSintomas(cita.sintomas);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleCita = () => {
     if ([paciente, propietario, email, fecha, sintomas].includes('')) {
@@ -27,7 +48,6 @@ const Formulario = ({modalVisible, setModalVisible, citas, setCitas}) => {
     }
 
     const nuevaCita = {
-      id: Date.now(),
       paciente,
       propietario,
       email,
@@ -36,7 +56,18 @@ const Formulario = ({modalVisible, setModalVisible, citas, setCitas}) => {
       sintomas,
     };
 
-    setCitas([...citas, nuevaCita]);
+    if (id) {
+      nuevaCita.id = id;
+      const citasActualizadas = citas.map(citaState => {
+        cita.id === nuevaCita.id ? nuevaCita : citaState;
+      });
+      setCitas(citasActualizadas);
+      setCita({});
+    } else {
+      nuevaCita.id = Date.now();
+      setCitas([...citas, nuevaCita]);
+    }
+
     setModalVisible(false);
     setPaciente('');
     setPropietario('');
@@ -55,7 +86,16 @@ const Formulario = ({modalVisible, setModalVisible, citas, setCitas}) => {
           </Text>
           <Pressable
             style={styles.btnCancelar}
-            onLongPress={() => setModalVisible(false)}>
+            onLongPress={() => {
+              setModalVisible(false);
+              setCita({});
+              setPaciente('');
+              setPropietario('');
+              setEmail('');
+              setTelefono('');
+              setFecha(new Date());
+              setSintomas('');
+            }}>
             <Text style={styles.btnCancelarTexto}>X Cancelar</Text>
           </Pressable>
           <View style={styles.campo}>
